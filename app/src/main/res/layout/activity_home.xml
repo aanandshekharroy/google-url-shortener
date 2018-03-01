@@ -4,6 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".ui.home.HomeActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/leak_canary_icon"
+        tools:layout_editor_absoluteX="187dp"
+        tools:layout_editor_absoluteY="239dp" />
 </android.support.constraint.ConstraintLayout>

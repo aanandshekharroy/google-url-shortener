@@ -9,6 +9,7 @@ import com.example.theseus.urlshortener.di.components.IntroActivityComponent
 import com.example.theseus.urlshortener.di.modules.ApplicationModule
 import com.example.theseus.urlshortener.di.modules.HomeActivityModule
 import com.example.theseus.urlshortener.di.modules.IntroActivityModule
+import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 
 class UrlShortenerApplication :Application(){
@@ -29,6 +30,7 @@ class UrlShortenerApplication :Application(){
             return;
         }
         LeakCanary.install(this)
+        Stetho.initializeWithDefaults(this)
         mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this)).build()
     }
