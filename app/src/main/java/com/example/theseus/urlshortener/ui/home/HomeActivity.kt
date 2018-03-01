@@ -6,16 +6,20 @@ import com.example.theseus.urlshortener.UrlShortenerApplication
 import com.example.theseus.urlshortener.ui.base.BaseActivity
 import com.example.theseus.urlshortener.ui.intro.IntroActivity
 import com.example.theseus.urlshortener.ui.login.LoginActivity
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.newTask
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity(),IHomeView {
     override fun openIntroSlider() {
-        startActivity<IntroActivity>()
+        startActivity(intentFor<IntroActivity>().newTask())
+        finish()
     }
 
     override fun openLoginActivity() {
-        startActivity<LoginActivity>()
+
+        startActivity(intentFor<LoginActivity>().newTask())
+        finish()
     }
 
     @Inject
