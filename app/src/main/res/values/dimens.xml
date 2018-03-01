@@ -1,0 +1,42 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_2">2dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
+    <dimen name="dp_32">32dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="activity_double_margin">32dp</dimen>
+    <dimen name="upload_photo_size">120dp</dimen>
+    <dimen name="profile_border_width">1dp</dimen>
+    <dimen name="text_home_card_owner">18sp</dimen>
+    <dimen name="home_card_location">16dp</dimen>
+    <dimen name="text_posting_time">10sp</dimen>
+    <dimen name="offer_title">18dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="textSmall">14sp</dimen>
+    <dimen name="textExtraSmall">11sp</dimen>
+    <dimen name="button_pad_16">16dp</dimen>
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="text_18">18sp</dimen>
+    <dimen name="default_message_text_size">16dp</dimen>
+    <dimen name="message_profile_photo_size">40dp</dimen>
+    <dimen name="default_timestamp_text_size">@dimen/dp_10</dimen>
+    <dimen name="profile_photo_size_large">60dp</dimen>
+    <dimen name="textLarge">20sp</dimen>
+    <dimen name="textNormal">18sp</dimen>
+    <dimen name="profile_photo_size_small">40dp</dimen>
+    <dimen name="text_16">16sp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="actionBarElevation">4dp</dimen>
+    <dimen name="nav_drawer_profile_size">80dp</dimen>
+    <dimen name="textLarge24">24sp</dimen>
+    <dimen name="icon_size">24dp</dimen>
+    <dimen name="item_image_size">60dp</dimen>
+</resources>

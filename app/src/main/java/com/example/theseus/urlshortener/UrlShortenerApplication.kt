@@ -3,9 +3,11 @@ package com.example.theseus.urlshortener
 import android.app.Application
 import com.example.theseus.urlshortener.di.components.ApplicationComponent
 import com.example.theseus.urlshortener.di.components.DaggerApplicationComponent
+import com.example.theseus.urlshortener.di.components.HomeActivityComponent
 //import com.example.theseus.urlshortener.di.components.DaggerApplicationComponent
 import com.example.theseus.urlshortener.di.components.IntroActivityComponent
 import com.example.theseus.urlshortener.di.modules.ApplicationModule
+import com.example.theseus.urlshortener.di.modules.HomeActivityModule
 import com.example.theseus.urlshortener.di.modules.IntroActivityModule
 import com.squareup.leakcanary.LeakCanary
 
@@ -14,6 +16,9 @@ class UrlShortenerApplication :Application(){
 
     val introActivityComponent : IntroActivityComponent by lazy {
         mApplicationComponent.introActivityComponent(IntroActivityModule())
+    }
+    val homeActivityComponent:HomeActivityComponent by lazy {
+        mApplicationComponent.homeActivityComponent(HomeActivityModule())
     }
 
     override fun onCreate() {

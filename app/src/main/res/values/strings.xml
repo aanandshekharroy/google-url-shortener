@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">UrlShortener</string>
+    <string name="lorem">Lorem</string>
+    <string name="intro_title_01">Intro Title 1</string>
+    <string name="get_started">Get Started</string>
+    <string name="intro_title_04">Intro Title 4</string>
+    <string name="intro_title_03">Intro title 3</string>
+    <string name="intro_title_02">Intro title 2</string>
 </resources>

@@ -25,7 +25,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
@@ -37,7 +37,8 @@ dependencies {
 
     kapt 'com.google.dagger:dagger-compiler:2.14.1'
     implementation 'com.google.dagger:dagger:2.14.1'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 
     implementation "org.jetbrains.anko:anko:$anko_version"
+    implementation 'com.github.apl-devs:appintro:v4.2.3'
 }
