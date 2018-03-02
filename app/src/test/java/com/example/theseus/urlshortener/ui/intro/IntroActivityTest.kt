@@ -4,7 +4,7 @@ import android.content.Intent
 import android.support.v4.app.Fragment
 import com.example.theseus.urlshortener.BuildConfig
 import com.example.theseus.urlshortener.FakeApplication
-import com.example.theseus.urlshortener.ui.login.LoginActivity
+import com.example.theseus.urlshortener.ui.home.HomeActivity
 import junit.framework.Assert
 import org.junit.Before
 import org.junit.Test
@@ -40,9 +40,9 @@ class IntroActivityTest{
     }
 
     @Test
-    fun shouldLaunchLoginActivity(){
-        introActivity.openLoginActivity()
-        val expectedIntent = Intent(introActivity, LoginActivity::class.java)
+    fun shouldLaunchHomeActivity(){
+        introActivity.openHomeActivity()
+        val expectedIntent = Intent(introActivity, HomeActivity::class.java)
         val shadowActivity = Shadows.shadowOf(introActivity)
         val actualIntent = shadowActivity.getNextStartedActivity()
         Assert.assertTrue(actualIntent.filterEquals(expectedIntent))

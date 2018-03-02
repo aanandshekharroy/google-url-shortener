@@ -20,9 +20,9 @@ class IntroPresenterTest {
     }
 
     @Test
-    fun openLoginActivityWhenIntroSliderCompletes(){
+    fun openHomeActivityWhenIntroSliderCompletes(){
         mPresenter.introCompleted()
         verify(mDataManager).introSliderShown()
-        verify(mIIntroView).openLoginActivity()
+        verify(mIIntroView).openHomeActivity()
     }
 }

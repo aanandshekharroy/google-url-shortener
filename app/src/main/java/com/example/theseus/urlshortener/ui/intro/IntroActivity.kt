@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.UrlShortenerApplication
-import com.example.theseus.urlshortener.ui.login.LoginActivity
+import com.example.theseus.urlshortener.ui.home.HomeActivity
 import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
 import org.jetbrains.anko.intentFor
@@ -45,9 +45,9 @@ class IntroActivity : AppIntro(),IIntroView {
         super.onDonePressed(currentFragment)
         mPresenter.introCompleted()
     }
-    override fun openLoginActivity() {
+    override fun openHomeActivity() {
 
-        startActivity(intentFor<LoginActivity>().newTask())
+        startActivity(intentFor<HomeActivity>().newTask())
         finish()
     }
 }

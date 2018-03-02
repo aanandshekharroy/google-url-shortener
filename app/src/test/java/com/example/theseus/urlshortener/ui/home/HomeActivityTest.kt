@@ -1,8 +1,11 @@
 package com.example.theseus.urlshortener.ui.home
 
 import android.content.Intent
+import android.widget.Button
+import android.widget.EditText
 import com.example.theseus.urlshortener.BuildConfig
 import com.example.theseus.urlshortener.FakeApplication
+import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.ui.intro.IntroActivity
 import com.example.theseus.urlshortener.ui.login.LoginActivity
 import junit.framework.Assert.assertTrue
@@ -10,6 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows
@@ -43,5 +47,11 @@ class HomeActivityTest {
         val shadowActivity = Shadows.shadowOf(homeActivity)
         val actualIntent = shadowActivity.getNextStartedActivity()
         assertTrue(actualIntent.filterEquals(expectedIntent))
+    }
+    @Test
+    fun shouldCallPresenterOnShortenLinkButtonClicked(){
+        val longUrl = homeActivity.findViewById<EditText>(R.id.url_text).text.toString()
+        homeActivity.findViewById<Button>(R.id.shorten_url).performClick()
+        verify(mPresenter).shortenUrlClicked(longUrl)
     }
 }
