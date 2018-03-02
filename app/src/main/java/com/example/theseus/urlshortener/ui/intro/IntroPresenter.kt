@@ -10,5 +10,4 @@ class IntroPresenter<V:IIntroView>
         mDataManager.introSliderShown()
         view?.openLoginActivity()
     }
-
 }
