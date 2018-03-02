@@ -21,28 +21,16 @@ class HomePresenterTest{
 
 
     @Test
-    fun shouldOpenIntroSliderIfNotLoggedInAndIntroNeverShown(){
-        _when(mDataManager.isLoggedIn()).thenReturn(false)
+    fun shouldOpenIntroSliderIfIntroNeverShown(){
         _when(mDataManager.isIntroSliderShown()).thenReturn(false)
         mPresenter.onAttach(homeActivity)
         verify(homeActivity).openIntroSlider()
     }
 
     @Test
-    fun shouldOpenLoginActivityIfNotLoggedInAndIntroEverShown(){
-
-        _when(mDataManager.isLoggedIn()).thenReturn(false)
+    fun shouldNotOpenIntroWhenIntroShown(){
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         mPresenter.onAttach(homeActivity)
-        verify(homeActivity).openLoginActivity()
-
-    }
-
-    @Test
-    fun shouldNotOpenLoginOrIntroWhenLoggedIn(){
-        _when(mDataManager.isLoggedIn()).thenReturn(true)
-        mPresenter.onAttach(homeActivity)
-        verify(homeActivity,Mockito.never()).openLoginActivity()
         verify(homeActivity,Mockito.never()).openIntroSlider()
     }
 
