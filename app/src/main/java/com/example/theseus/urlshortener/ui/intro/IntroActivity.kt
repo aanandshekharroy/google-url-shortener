@@ -43,6 +43,7 @@ class IntroActivity : AppIntro(),IIntroView {
 
     override fun onDonePressed(currentFragment: Fragment) {
         super.onDonePressed(currentFragment)
+        mPresenter.introCompleted()
     }
     override fun openLoginActivity() {
 

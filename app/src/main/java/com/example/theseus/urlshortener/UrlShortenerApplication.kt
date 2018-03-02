@@ -12,7 +12,7 @@ import com.example.theseus.urlshortener.di.modules.IntroActivityModule
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 
-class UrlShortenerApplication :Application(){
+open class UrlShortenerApplication :Application(){
     lateinit var mApplicationComponent: ApplicationComponent
 
     val introActivityComponent : IntroActivityComponent by lazy {
@@ -30,10 +30,16 @@ class UrlShortenerApplication :Application(){
             return;
         }
         LeakCanary.install(this)
-        Stetho.initializeWithDefaults(this)
+        if (BuildConfig.DEBUG) {
+            if (!isUnitTesting()) {
+                Stetho.initializeWithDefaults(this);
+            }
+        }
         mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this)).build()
     }
+
+    open fun isUnitTesting() = false
 
 
 }

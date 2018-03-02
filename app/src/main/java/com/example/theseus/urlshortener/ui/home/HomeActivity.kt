@@ -17,7 +17,6 @@ class HomeActivity : BaseActivity(),IHomeView {
     }
 
     override fun openLoginActivity() {
-
         startActivity(intentFor<LoginActivity>().newTask())
         finish()
     }
