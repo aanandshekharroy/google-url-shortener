@@ -4,4 +4,5 @@ interface IDataManager {
     fun isLoggedIn(): Boolean
     fun isIntroSliderShown():Boolean
     fun introSliderShown()
+    fun fetchShortUrl(url: String)
 }

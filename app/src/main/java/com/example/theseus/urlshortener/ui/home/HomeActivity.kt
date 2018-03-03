@@ -9,12 +9,17 @@ import com.example.theseus.urlshortener.ui.login.LoginActivity
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import kotlinx.android.synthetic.main.activity_home.*
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity(),IHomeView {
+    override fun showSnackbar(stringId: Int) {
+        snackbar(content,stringId)
+    }
+
     override fun openIntroSlider() {
         startActivity(intentFor<IntroActivity>().newTask())
         finish()

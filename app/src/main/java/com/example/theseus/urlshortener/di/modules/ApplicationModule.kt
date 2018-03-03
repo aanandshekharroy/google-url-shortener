@@ -1,11 +1,12 @@
 package com.example.theseus.urlshortener.di.modules
 
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.example.theseus.urlshortener.data.DataManager
 import com.example.theseus.urlshortener.data.IDataManager
+import com.example.theseus.urlshortener.data.api.ApiManager
+import com.example.theseus.urlshortener.data.api.IApiManager
 import com.example.theseus.urlshortener.data.prefs.ISharedPreferenceManager
 import com.example.theseus.urlshortener.data.prefs.SharedPreferenceManager
 import com.example.theseus.urlshortener.di.ApplicationContext
@@ -29,6 +30,10 @@ class ApplicationModule (val context: Application){
     @Provides
     @Singleton
     fun preferenceManager(preferenceManager: SharedPreferenceManager): ISharedPreferenceManager = preferenceManager
+
+    @Provides
+    @Singleton
+    fun apiManager(apiManager: ApiManager): IApiManager = apiManager
 
     @Provides
     @Singleton

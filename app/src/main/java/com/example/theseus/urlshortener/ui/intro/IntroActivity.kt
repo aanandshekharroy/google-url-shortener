@@ -36,7 +36,6 @@ class IntroActivity : AppIntro(),IIntroView {
         setBarColor(Color.parseColor("#3F51B5"));
         setSeparatorColor(Color.parseColor("#2196F3"));
         showSkipButton(false);
-//        setProgressButtonEnabled(false);
         (application as UrlShortenerApplication).introActivityComponent.inject(this)
         mPresenter.onAttach(this)
     }
