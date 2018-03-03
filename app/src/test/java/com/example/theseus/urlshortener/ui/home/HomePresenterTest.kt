@@ -28,6 +28,9 @@ class HomePresenterTest{
     lateinit var  homeActivity :IHomeView
     @Mock
     lateinit var mCompositeDisposable: CompositeDisposable
+    @Mock
+    lateinit var urlShortenResponse: UrlShortenResponse
+
     @InjectMocks
     lateinit var  mPresenter : HomePresenter<IHomeView>
     @Before
@@ -36,6 +39,7 @@ class HomePresenterTest{
         RxAndroidPlugins.setInitMainThreadSchedulerHandler {
             Schedulers.trampoline()
         }
+        _when(urlShortenResponse.id).thenReturn("")
     }
 
 
@@ -86,7 +90,7 @@ class HomePresenterTest{
         val url = "www.google.com"
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
-                .thenReturn(Single.just(UrlShortenResponse()))
+                .thenReturn(Single.just(urlShortenResponse))
         mPresenter.onAttach(homeActivity)
         mPresenter.shortenUrlClicked(url)
         verify(homeActivity).showProgressDialog()
@@ -98,7 +102,7 @@ class HomePresenterTest{
         val url = "www.google.com"
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
-                .thenReturn(Single.just(UrlShortenResponse()))
+                .thenReturn(Single.just(urlShortenResponse))
                 .thenReturn(Single.error<UrlShortenResponse>(IOException("Error in network connection")))
         mPresenter.onAttach(homeActivity)
         mPresenter.shortenUrlClicked(url)
@@ -127,10 +131,10 @@ class HomePresenterTest{
         val url = "www.google.com"
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(url))
-                .thenReturn(Single.just(UrlShortenResponse("","","")))
+                .thenReturn(Single.just<UrlShortenResponse>(urlShortenResponse))
         mPresenter.onAttach(homeActivity)
         mPresenter.shortenUrlClicked(url)
-        verify(homeActivity).openDialog(ArgumentMatchers.anyString())
+        verify(homeActivity).openDialog(urlShortenResponse.id!!)
     }
 
 
