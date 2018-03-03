@@ -49,4 +49,9 @@ class HomeActivity : BaseActivity(),IHomeView {
             mPresenter.shortenUrlClicked(url_text.text.toString())
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.onDetach()
+    }
 }

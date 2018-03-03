@@ -50,4 +50,8 @@ class IntroActivity : AppIntro(),IIntroView {
         startActivity(intentFor<HomeActivity>().newTask())
         finish()
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.onDetach()
+    }
 }
