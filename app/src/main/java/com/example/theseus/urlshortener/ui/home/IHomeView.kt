@@ -7,4 +7,6 @@ interface IHomeView:IBaseView {
     fun openLoginActivity()
     fun openIntroSlider()
     fun showSnackbar(@StringRes stringId: Int)
+    fun showSnackbar(string: String)
+    fun openDialog(shortUrl: String)
 }

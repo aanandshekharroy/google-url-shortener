@@ -6,10 +6,15 @@ import com.example.theseus.urlshortener.ui.home.IHomePresenter
 import com.example.theseus.urlshortener.ui.home.IHomeView
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 
 @Module
 class HomeActivityModule {
     @Provides
     @HomeActivityScope
     fun presenter(presenter:HomePresenter<IHomeView>):IHomePresenter<IHomeView> = presenter
+
+    @Provides
+    @HomeActivityScope
+    fun compositeDisposable() = CompositeDisposable()
 }

@@ -1,8 +1,12 @@
 package com.example.theseus.urlshortener.ui.home
 
 import com.example.theseus.urlshortener.R
-import com.example.theseus.urlshortener.data.DataManager
 import com.example.theseus.urlshortener.data.IDataManager
+import com.example.theseus.urlshortener.data.model.response.UrlShortenResponse
+import io.reactivex.Single
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
 import junitparams.JUnitParamsRunner
@@ -10,20 +14,28 @@ import junitparams.Parameters
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
+import org.mockito.*
 import org.mockito.Mockito.*
+import java.io.IOException
 import org.mockito.Mockito.`when` as _when
+
+
 @RunWith(JUnitParamsRunner::class)
 class HomePresenterTest{
+    @Mock
     lateinit var mDataManager:IDataManager
+    @Mock
     lateinit var  homeActivity :IHomeView
-    lateinit var  mPresenter : IHomePresenter<IHomeView>
+    @Mock
+    lateinit var mCompositeDisposable: CompositeDisposable
+    @InjectMocks
+    lateinit var  mPresenter : HomePresenter<IHomeView>
     @Before
     fun setUp(){
-        mDataManager = mock(DataManager::class.java)
-        homeActivity = mock(HomeActivity::class.java)
-        mPresenter = HomePresenter(mDataManager)
-
+        MockitoAnnotations.initMocks(this)
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler {
+            Schedulers.trampoline()
+        }
     }
 
 
@@ -44,9 +56,7 @@ class HomePresenterTest{
 
 
     @Test
-    @Parameters("http://stackoverflow.com"
-            ,"www.google.com"
-            ,"blog.bufferapp.com/")
+    @Parameters(method = "getValidUrls")
     @Throws(Exception::class)
     fun testValidSiteAddressUsingRegex(url:String){
         assertTrue(mPresenter.isValidAddress(url))
@@ -71,12 +81,61 @@ class HomePresenterTest{
     }
 
     @Test
-    @Parameters(method = "getValidUrls")
     @Throws(Exception::class)
-    fun shouldFetchShortUrlFromGoogleApi(url:String){
+    fun shouldShowProgressDialogWhileFetchingShortUrl(){
+        val url = "www.google.com"
+        _when(mDataManager.isIntroSliderShown()).thenReturn(true)
+        _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
+                .thenReturn(Single.just(UrlShortenResponse()))
+        mPresenter.onAttach(homeActivity)
         mPresenter.shortenUrlClicked(url)
-        verify(mDataManager).fetchShortUrl(url)
+        verify(homeActivity).showProgressDialog()
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun shouldHideProgressDialogAfterFetchingShortUrl(){
+        val url = "www.google.com"
+        _when(mDataManager.isIntroSliderShown()).thenReturn(true)
+        _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
+                .thenReturn(Single.just(UrlShortenResponse()))
+                .thenReturn(Single.error<UrlShortenResponse>(IOException("Error in network connection")))
+        mPresenter.onAttach(homeActivity)
+        mPresenter.shortenUrlClicked(url)
+
+
+        //Testing progressbar hiding in case of error
+        mPresenter.shortenUrlClicked(url)
+        verify(homeActivity, atLeast(2)).hideProgressDialog()
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun shouldShowSnackbarWhenErrorFetchingFromApi(){
+        _when(mDataManager.isIntroSliderShown()).thenReturn(true)
+        _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
+                .thenReturn(Single.error<UrlShortenResponse>(IOException("Error in network connection")))
+        val url = "www.google.com"
+        mPresenter.onAttach(homeActivity)
+        mPresenter.shortenUrlClicked(url)
+        verify(homeActivity).showSnackbar(ArgumentMatchers.anyString())
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun shouldOpenDialogAfterApiResponse(){
+        val url = "www.google.com"
+        _when(mDataManager.isIntroSliderShown()).thenReturn(true)
+        _when(mDataManager.fetchShortUrl(url))
+                .thenReturn(Single.just(UrlShortenResponse("","","")))
+        mPresenter.onAttach(homeActivity)
+        mPresenter.shortenUrlClicked(url)
+        verify(homeActivity).openDialog(ArgumentMatchers.anyString())
+    }
+
+
+
+
 
 
 

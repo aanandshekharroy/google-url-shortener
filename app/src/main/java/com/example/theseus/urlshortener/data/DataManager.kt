@@ -6,9 +6,7 @@ import javax.inject.Inject
 
 
 class DataManager @Inject constructor( val mPreferenceManager: ISharedPreferenceManager, val mApiManager: IApiManager):IDataManager {
-    override fun fetchShortUrl(url: String) {
-//        return
-    }
+    override fun fetchShortUrl(url: String)  = mApiManager.fetchShortUrl(url)
 
     override fun introSliderShown() {
         mPreferenceManager.introSliderShown = true

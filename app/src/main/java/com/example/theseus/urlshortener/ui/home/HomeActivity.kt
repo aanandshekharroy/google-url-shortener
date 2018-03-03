@@ -16,6 +16,14 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity(),IHomeView {
+    override fun openDialog(shortUrl: String) {
+
+    }
+
+    override fun showSnackbar(string: String) {
+        snackbar(content,string)
+    }
+
     override fun showSnackbar(stringId: Int) {
         snackbar(content,stringId)
     }
