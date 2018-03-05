@@ -59,4 +59,9 @@ class HomeActivityTest {
     fun shouldShowSnackbar(){
         // Can't test with Robolectric. No shadow object for Snacks
     }
+
+    @Test
+    fun shouldOpenDialogWithButton(){
+        homeActivity.openDialog("")
+    }
 }
