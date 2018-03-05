@@ -28,8 +28,7 @@ class HomePresenterTest{
     lateinit var  homeActivity :IHomeView
     @Mock
     lateinit var mCompositeDisposable: CompositeDisposable
-    @Mock
-    lateinit var urlShortenResponse: UrlShortenResponse
+    val urlShortenResponse =  UrlShortenResponse("","","")
 
     @InjectMocks
     lateinit var  mPresenter : HomePresenter<IHomeView>
@@ -39,7 +38,6 @@ class HomePresenterTest{
         RxAndroidPlugins.setInitMainThreadSchedulerHandler {
             Schedulers.trampoline()
         }
-        _when(urlShortenResponse.id).thenReturn("")
     }
 
 
@@ -126,12 +124,15 @@ class HomePresenterTest{
     }
 
     @Test
-    @Throws(Exception::class)
     fun shouldOpenDialogAfterApiResponse(){
         val url = "www.google.com"
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler {
+            Schedulers.trampoline()
+        }
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(url))
                 .thenReturn(Single.just<UrlShortenResponse>(urlShortenResponse))
+
         mPresenter.onAttach(homeActivity)
         mPresenter.shortenUrlClicked(url)
         verify(homeActivity).openDialog(urlShortenResponse.id!!)

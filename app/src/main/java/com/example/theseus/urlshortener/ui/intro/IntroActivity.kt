@@ -13,14 +13,7 @@ import org.jetbrains.anko.newTask
 import javax.inject.Inject
 
 class IntroActivity : AppIntro(),IIntroView {
-    override fun showProgressDialog() {
 
-
-    }
-
-    override fun hideProgressDialog() {
-
-    }
 
 
     @Inject

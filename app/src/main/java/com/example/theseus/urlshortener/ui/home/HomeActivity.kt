@@ -1,5 +1,6 @@
 package com.example.theseus.urlshortener.ui.home
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.UrlShortenerApplication
@@ -8,18 +9,32 @@ import com.example.theseus.urlshortener.ui.intro.IntroActivity
 import com.example.theseus.urlshortener.ui.login.LoginActivity
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.design.snackbar
+import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity(),IHomeView {
+    var dialog: ProgressDialog? =null
+
     override fun openDialog(shortUrl: String) {
 
     }
+    override fun showProgressDialog() {
+        if(dialog==null){
+            dialog = indeterminateProgressDialog(getString(R.string.please_wait))
+        }else{
+            dialog!!.show()
+        }
+    }
 
+    override fun hideProgressDialog() {
+        dialog?.hide()
+    }
     override fun showSnackbar(string: String) {
         snackbar(content,string)
     }
@@ -49,7 +64,9 @@ class HomeActivity : BaseActivity(),IHomeView {
     }
 
     private fun setupViews() {
-       RxTextView.textChanges(url_text).subscribe {
+       RxTextView.textChanges(url_text)
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe {
            if(it.length>0){
                shorten_url.isEnabled = true
            }else{
@@ -58,7 +75,9 @@ class HomeActivity : BaseActivity(),IHomeView {
        }
 
 
-        RxView.clicks(shorten_url).debounce(200,TimeUnit.MILLISECONDS).subscribe {
+        RxView.clicks(shorten_url).debounce(200,TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
             mPresenter.shortenUrlClicked(url_text.text.toString())
         }
     }

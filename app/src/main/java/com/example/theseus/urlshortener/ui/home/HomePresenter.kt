@@ -28,9 +28,6 @@ class HomePresenter<V:IHomeView> @Inject constructor(val mDataManager: IDataMana
                     .subscribeBy (
                         onSuccess = {
                             view?.hideProgressDialog()
-//                            it.id?.let {
-//
-//                            }
                             view?.openDialog(it.id!!)
                         },
                         onError = {
