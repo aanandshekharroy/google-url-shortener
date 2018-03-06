@@ -46,7 +46,7 @@ android:
 #  - adb shell input keyevent 82 &
 script:
 #        - ./gradlew build
-        - ./gradlew clean
+        - ./gradlew clean build
         - ./gradlew assembleDebug
         - ./gradlew test
 #        - ./gradlew assembleDebugAndroidTest

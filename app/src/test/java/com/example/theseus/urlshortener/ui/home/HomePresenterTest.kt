@@ -59,13 +59,6 @@ class HomePresenterTest{
         RxJavaPlugins.setInitNewThreadSchedulerHandler { immediate }
         RxJavaPlugins.setInitSingleSchedulerHandler { immediate }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediate }
-
-        try {
-//            base.evaluate()
-        } finally {
-//            RxJavaPlugins.reset()
-//            RxAndroidPlugins.reset()
-        }
     }
 
 
