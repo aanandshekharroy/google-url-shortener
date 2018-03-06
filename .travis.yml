@@ -54,3 +54,4 @@ before_install:
 branches:
         only:
                 - master
+                - fixes
