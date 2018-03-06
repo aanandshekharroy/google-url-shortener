@@ -20,11 +20,11 @@ class IntroActivity : AppIntro(),IIntroView {
     lateinit var mPresenter: IIntroPresenter<IIntroView>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addSlide(AppIntroFragment.newInstance("ABS", "ss", R.drawable.leak_canary_icon
+        addSlide(AppIntroFragment.newInstance("ABS", "ss", R.drawable.sign_in_button
                 , resources.getColor(R.color.material_blue_grey_800)))
-        addSlide(AppIntroFragment.newInstance("ABS", "ss",R.drawable.leak_canary_icon
+        addSlide(AppIntroFragment.newInstance("ABS", "ss",R.drawable.sign_in_button
                 , resources.getColor(R.color.material_blue_grey_800)))
-        addSlide(AppIntroFragment.newInstance("ABS", "ss",R.drawable.leak_canary_icon
+        addSlide(AppIntroFragment.newInstance("ABS", "ss",R.drawable.sign_in_button
                 , resources.getColor(R.color.material_blue_grey_800)))
         setBarColor(Color.parseColor("#3F51B5"));
         setSeparatorColor(Color.parseColor("#2196F3"));
