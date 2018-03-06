@@ -19,21 +19,21 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity(),IHomeView {
-    var dialog: ProgressDialog? =null
+    var progressDialog: ProgressDialog? =null
 
     override fun openDialog(shortUrl: String) {
 
     }
     override fun showProgressDialog() {
-        if(dialog==null){
-            dialog = indeterminateProgressDialog(getString(R.string.please_wait))
+        if(progressDialog ==null){
+            progressDialog = indeterminateProgressDialog(getString(R.string.please_wait))
         }else{
-            dialog!!.show()
+            progressDialog!!.show()
         }
     }
 
     override fun hideProgressDialog() {
-        dialog?.hide()
+        progressDialog?.hide()
     }
     override fun showSnackbar(string: String) {
         snackbar(content,string)
