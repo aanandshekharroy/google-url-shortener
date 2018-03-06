@@ -25,7 +25,6 @@ android:
     - tools
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     - android-$ANDROID_API_LEVEL
-    - android-$EMULATOR_API_LEVEL
 
     # Google Play Services
     - extra-google-google_play_services
@@ -35,10 +34,10 @@ android:
     - extra-android-m2repository
 
     - addon-google_apis-google-$ANDROID_API_LEVEL
-    - addon-google_apis-google-$EMULATOR_API_LEVEL
+#    - addon-google_apis-google-$EMULATOR_API_LEVEL
 
-    - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API_LEVEL
-    - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API_LEVEL
+#    - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API_LEVEL
+#    - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API_LEVEL
 #before_script:
 #  - echo no | android create avd --force -n test -t "android-"$EMULATOR_API_LEVEL --abi $ANDROID_ABI --tag $ANDROID_TAG
 #  - emulator -avd test -no-skin -no-audio -no-window &
