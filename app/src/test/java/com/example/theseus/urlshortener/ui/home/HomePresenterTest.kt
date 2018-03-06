@@ -3,21 +3,29 @@ package com.example.theseus.urlshortener.ui.home
 import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.data.IDataManager
 import com.example.theseus.urlshortener.data.model.response.UrlShortenResponse
+import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.internal.schedulers.ExecutorScheduler
+import io.reactivex.plugins.RxJavaPlugins
 import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
 import junitparams.JUnitParamsRunner
 import junitparams.Parameters
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.*
 import org.mockito.Mockito.*
 import java.io.IOException
+import java.util.concurrent.Executor
+import java.util.concurrent.TimeUnit
 import org.mockito.Mockito.`when` as _when
+
+
 
 
 @RunWith(JUnitParamsRunner::class)
@@ -29,14 +37,34 @@ class HomePresenterTest{
     @Mock
     lateinit var mCompositeDisposable: CompositeDisposable
     val urlShortenResponse =  UrlShortenResponse("","","")
+    private val immediate = object : Scheduler() {
+        override fun scheduleDirect(run: Runnable,
+                                    delay: Long, unit: TimeUnit): Disposable {
+            return super.scheduleDirect(run, 0, unit)
+        }
 
+        override fun createWorker(): Scheduler.Worker {
+            return ExecutorScheduler.ExecutorWorker(
+                    Executor { it.run() })
+        }
+    }
     @InjectMocks
     lateinit var  mPresenter : HomePresenter<IHomeView>
     @Before
+    @Throws(Exception::class)
     fun setUp(){
         MockitoAnnotations.initMocks(this)
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler {
-            Schedulers.trampoline()
+        RxJavaPlugins.setInitIoSchedulerHandler { immediate }
+        RxJavaPlugins.setInitComputationSchedulerHandler { immediate }
+        RxJavaPlugins.setInitNewThreadSchedulerHandler { immediate }
+        RxJavaPlugins.setInitSingleSchedulerHandler { immediate }
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediate }
+
+        try {
+//            base.evaluate()
+        } finally {
+//            RxJavaPlugins.reset()
+//            RxAndroidPlugins.reset()
         }
     }
 
@@ -124,21 +152,22 @@ class HomePresenterTest{
     }
 
     @Test
+    @Throws(Exception::class)
     fun shouldOpenDialogAfterApiResponse(){
         val url = "www.google.com"
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler {
-            Schedulers.trampoline()
-        }
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
-        _when(mDataManager.fetchShortUrl(url))
-                .thenReturn(Single.just<UrlShortenResponse>(urlShortenResponse))
+        _when(mDataManager.fetchShortUrl(url)).thenReturn(Single.just<UrlShortenResponse>(urlShortenResponse))
 
         mPresenter.onAttach(homeActivity)
         mPresenter.shortenUrlClicked(url)
         verify(homeActivity).openDialog(urlShortenResponse.id!!)
     }
 
-
+    @After
+    @Throws(Exception::class)
+    fun tearDown() {
+        mPresenter.onDetach()
+    }
 
 
 
