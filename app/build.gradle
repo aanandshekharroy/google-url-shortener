@@ -27,6 +27,9 @@ android {
             includeAndroidResources = true
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 configurations.all { config ->
     if (config.name.contains('UnitTest')) {
