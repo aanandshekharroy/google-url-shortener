@@ -16,21 +16,16 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 
-
-
-
-
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class, application = FakeApplication::class)
-class IntroActivityTest{
+class IntroActivityTest {
     lateinit var introActivity: IntroActivity
-    lateinit var mPresenter:IIntroPresenter<*>
+    lateinit var mPresenter: IIntroPresenter<*>
     @Before
-    fun setUp(){
+    fun setUp() {
         introActivity = Robolectric.buildActivity(IntroActivity::class.java).create().get()
         mPresenter = mock(IIntroPresenter::class.java)
         introActivity.mPresenter = mPresenter as IIntroPresenter<IIntroView>
-
     }
 
     @Test
@@ -40,7 +35,7 @@ class IntroActivityTest{
     }
 
     @Test
-    fun shouldLaunchHomeActivity(){
+    fun shouldLaunchHomeActivity() {
         introActivity.openHomeActivity()
         val expectedIntent = Intent(introActivity, HomeActivity::class.java)
         val shadowActivity = Shadows.shadowOf(introActivity)

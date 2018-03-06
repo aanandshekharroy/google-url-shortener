@@ -7,9 +7,9 @@ import com.example.theseus.urlshortener.di.modules.NetworkModule
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = arrayOf(ApplicationModule::class,NetworkModule::class))
+@Component(modules = arrayOf(ApplicationModule::class, NetworkModule::class))
 @Singleton
 interface ApplicationComponent {
-    fun introActivityComponent(introActivityModule: IntroActivityModule):IntroActivityComponent
-    fun homeActivityComponent(homeActivityModule: HomeActivityModule):HomeActivityComponent
+    fun introActivityComponent(introActivityModule: IntroActivityModule): IntroActivityComponent
+    fun homeActivityComponent(homeActivityModule: HomeActivityModule): HomeActivityComponent
 }

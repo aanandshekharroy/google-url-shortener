@@ -48,6 +48,7 @@ script:
         - ./gradlew clean build
         - ./gradlew assembleDebug
         - ./gradlew test
+        - ./gradlew lint
 #        - ./gradlew assembleDebugAndroidTest
 before_install:
           - mkdir "$ANDROID_HOME/licenses" || true

@@ -1,7 +1,7 @@
 package com.example.theseus.urlshortener.ui.base
 
-open class BasePresenter<V:IBaseView>:IBaseViewPresenter<V> {
-    var view:V? = null
+open class BasePresenter<V : IBaseView> : IBaseViewPresenter<V> {
+    var view: V? = null
     override fun onAttach(v: V) {
         view = v
     }

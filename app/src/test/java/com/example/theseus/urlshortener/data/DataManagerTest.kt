@@ -13,7 +13,7 @@ import org.mockito.MockitoAnnotations
 class DataManagerTest {
 
     @Mock
-    lateinit var mApi:IApiManager
+    lateinit var mApi: IApiManager
     @Mock
     lateinit var mPreferenceManager: SharedPreferenceManager
     @InjectMocks
@@ -23,7 +23,7 @@ class DataManagerTest {
         MockitoAnnotations.initMocks(this)
     }
     @Test
-    fun shouldFetchShortUrlFromApi(){
+    fun shouldFetchShortUrlFromApi() {
         mDataManager.fetchShortUrl("")
         verify(mApi).fetchShortUrl(ArgumentMatchers.anyString())
     }

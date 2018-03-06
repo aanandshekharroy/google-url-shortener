@@ -6,10 +6,10 @@ import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.UrlShortenerApplication
 import com.example.theseus.urlshortener.ui.base.BaseActivity
 import com.example.theseus.urlshortener.ui.intro.IntroActivity
-import com.example.theseus.urlshortener.ui.login.LoginActivity
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.indeterminateProgressDialog
@@ -18,16 +18,15 @@ import org.jetbrains.anko.newTask
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class HomeActivity : BaseActivity(),IHomeView {
-    var progressDialog: ProgressDialog? =null
+class HomeActivity : BaseActivity(), IHomeView {
+    var progressDialog: ProgressDialog? = null
 
     override fun openDialog(shortUrl: String) {
-
     }
     override fun showProgressDialog() {
-        if(progressDialog ==null){
+        if (progressDialog == null) {
             progressDialog = indeterminateProgressDialog(getString(R.string.please_wait))
-        }else{
+        } else {
             progressDialog!!.show()
         }
     }
@@ -36,11 +35,11 @@ class HomeActivity : BaseActivity(),IHomeView {
         progressDialog?.hide()
     }
     override fun showSnackbar(string: String) {
-        snackbar(content,string)
+        snackbar(content, string)
     }
 
     override fun showSnackbar(stringId: Int) {
-        snackbar(content,stringId)
+        snackbar(content, stringId)
     }
 
     override fun openIntroSlider() {
@@ -48,13 +47,10 @@ class HomeActivity : BaseActivity(),IHomeView {
         finish()
     }
 
-    override fun openLoginActivity() {
-        startActivity(intentFor<LoginActivity>().newTask())
-        finish()
-    }
-
     @Inject
     lateinit var mPresenter: IHomePresenter<IHomeView>
+    @Inject
+    lateinit var mCompositeDisposable: CompositeDisposable
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -64,26 +60,25 @@ class HomeActivity : BaseActivity(),IHomeView {
     }
 
     private fun setupViews() {
-       RxTextView.textChanges(url_text)
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe {
-           if(it.length>0){
-               shorten_url.isEnabled = true
-           }else{
-               shorten_url.isEnabled = false
-           }
-       }
+        mCompositeDisposable.add(
+                RxTextView.textChanges(url_text)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            shorten_url.isEnabled = it.isNotEmpty()
+                }
+        )
 
-
-        RxView.clicks(shorten_url).debounce(200,TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-            mPresenter.shortenUrlClicked(url_text.text.toString())
-        }
+        mCompositeDisposable.add(RxView.clicks(shorten_url).debounce(200, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                mPresenter.shortenUrlClicked(url_text.text.toString())
+            }
+        )
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mPresenter.onDetach()
+        mCompositeDisposable.dispose()
     }
 }

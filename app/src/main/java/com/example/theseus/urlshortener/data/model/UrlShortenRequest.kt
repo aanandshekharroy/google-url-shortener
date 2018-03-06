@@ -6,6 +6,6 @@ import javax.annotation.Generated
 @Generated("com.robohorse.robopojogenerator")
 data class UrlShortenRequest(
 
-	@field:SerializedName("longUrl")
-	val longUrl: String? = null
+    @field:SerializedName("longUrl")
+    val longUrl: String? = null
 )

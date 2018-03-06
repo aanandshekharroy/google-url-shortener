@@ -12,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 class HomeActivityModule {
     @Provides
     @HomeActivityScope
-    fun presenter(presenter:HomePresenter<IHomeView>):IHomePresenter<IHomeView> = presenter
+    fun presenter(presenter: HomePresenter<IHomeView>): IHomePresenter<IHomeView> = presenter
 
     @Provides
     @HomeActivityScope

@@ -12,9 +12,7 @@ import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
 import javax.inject.Inject
 
-class IntroActivity : AppIntro(),IIntroView {
-
-
+class IntroActivity : AppIntro(), IIntroView {
 
     @Inject
     lateinit var mPresenter: IIntroPresenter<IIntroView>
@@ -22,13 +20,13 @@ class IntroActivity : AppIntro(),IIntroView {
         super.onCreate(savedInstanceState)
         addSlide(AppIntroFragment.newInstance("ABS", "ss", R.drawable.sign_in_button
                 , resources.getColor(R.color.material_blue_grey_800)))
-        addSlide(AppIntroFragment.newInstance("ABS", "ss",R.drawable.sign_in_button
+        addSlide(AppIntroFragment.newInstance("ABS", "ss", R.drawable.sign_in_button
                 , resources.getColor(R.color.material_blue_grey_800)))
-        addSlide(AppIntroFragment.newInstance("ABS", "ss",R.drawable.sign_in_button
+        addSlide(AppIntroFragment.newInstance("ABS", "ss", R.drawable.sign_in_button
                 , resources.getColor(R.color.material_blue_grey_800)))
-        setBarColor(Color.parseColor("#3F51B5"));
-        setSeparatorColor(Color.parseColor("#2196F3"));
-        showSkipButton(false);
+        setBarColor(Color.parseColor("#3F51B5"))
+        setSeparatorColor(Color.parseColor("#2196F3"))
+        showSkipButton(false)
         (application as UrlShortenerApplication).introActivityComponent.inject(this)
         mPresenter.onAttach(this)
     }

@@ -18,25 +18,27 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.*
-import org.mockito.Mockito.*
+import org.mockito.ArgumentMatchers
+import org.mockito.Mock
+import org.mockito.InjectMocks
+import org.mockito.Mockito
+import org.mockito.Mockito.atLeast
+import org.mockito.Mockito.verify
+import org.mockito.MockitoAnnotations
 import java.io.IOException
 import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 import org.mockito.Mockito.`when` as _when
 
-
-
-
 @RunWith(JUnitParamsRunner::class)
-class HomePresenterTest{
+class HomePresenterTest {
     @Mock
-    lateinit var mDataManager:IDataManager
+    lateinit var mDataManager: IDataManager
     @Mock
-    lateinit var  homeActivity :IHomeView
+    lateinit var homeActivity: IHomeView
     @Mock
     lateinit var mCompositeDisposable: CompositeDisposable
-    val urlShortenResponse =  UrlShortenResponse("","","")
+    val urlShortenResponse = UrlShortenResponse("", "", "")
     private val immediate = object : Scheduler() {
         override fun scheduleDirect(run: Runnable,
                                     delay: Long, unit: TimeUnit): Disposable {
@@ -49,10 +51,10 @@ class HomePresenterTest{
         }
     }
     @InjectMocks
-    lateinit var  mPresenter : HomePresenter<IHomeView>
+    lateinit var mPresenter: HomePresenter<IHomeView>
     @Before
     @Throws(Exception::class)
-    fun setUp(){
+    fun setUp() {
         MockitoAnnotations.initMocks(this)
         RxJavaPlugins.setInitIoSchedulerHandler { immediate }
         RxJavaPlugins.setInitComputationSchedulerHandler { immediate }
@@ -61,43 +63,40 @@ class HomePresenterTest{
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediate }
     }
 
-
     @Test
-    fun shouldOpenIntroSliderIfIntroNeverShown(){
+    fun shouldOpenIntroSliderIfIntroNeverShown() {
         _when(mDataManager.isIntroSliderShown()).thenReturn(false)
         mPresenter.onAttach(homeActivity)
         verify(homeActivity).openIntroSlider()
     }
 
     @Test
-    fun shouldNotOpenIntroWhenIntroShown(){
+    fun shouldNotOpenIntroWhenIntroShown() {
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         mPresenter.onAttach(homeActivity)
-        verify(homeActivity,Mockito.never()).openIntroSlider()
+        verify(homeActivity, Mockito.never()).openIntroSlider()
     }
-
-
 
     @Test
     @Parameters(method = "getValidUrls")
     @Throws(Exception::class)
-    fun testValidSiteAddressUsingRegex(url:String){
+    fun testValidSiteAddressUsingRegex(url: String) {
         assertTrue(mPresenter.isValidAddress(url))
     }
 
     @Test
     @Parameters(method = "getInvalidUrls")
     @Throws(Exception::class)
-    fun testInvalidSiteAddressUsingRegex(url:String){
-        assertFalse("${url} is not invalid",mPresenter.isValidAddress(url))
+    fun testInvalidSiteAddressUsingRegex(url: String) {
+        assertFalse("$url is not invalid", mPresenter.isValidAddress(url))
     }
-    fun getInvalidUrls() = arrayOf(arrayOf("//stackoverflow.com"),arrayOf("ww..google.com"))
-    fun getValidUrls() = arrayOf(arrayOf("www.google.com"),arrayOf("blog.bufferapp.com/"))
+    fun getInvalidUrls() = arrayOf(arrayOf("//stackoverflow.com"), arrayOf("ww..google.com"))
+    fun getValidUrls() = arrayOf(arrayOf("www.google.com"), arrayOf("blog.bufferapp.com/"))
 
     @Test
     @Parameters(method = "getInvalidUrls")
     @Throws(Exception::class)
-    fun shouldShowSnackbarIfAddressInvalid(url:String){
+    fun shouldShowSnackbarIfAddressInvalid(url: String) {
         mPresenter.onAttach(homeActivity)
         mPresenter.shortenUrlClicked(url)
         verify(homeActivity).showSnackbar(R.string.invalid_url)
@@ -105,7 +104,7 @@ class HomePresenterTest{
 
     @Test
     @Throws(Exception::class)
-    fun shouldShowProgressDialogWhileFetchingShortUrl(){
+    fun shouldShowProgressDialogWhileFetchingShortUrl() {
         val url = "www.google.com"
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
@@ -117,7 +116,7 @@ class HomePresenterTest{
 
     @Test
     @Throws(Exception::class)
-    fun shouldHideProgressDialogAfterFetchingShortUrl(){
+    fun shouldHideProgressDialogAfterFetchingShortUrl() {
         val url = "www.google.com"
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
@@ -125,8 +124,6 @@ class HomePresenterTest{
                 .thenReturn(Single.error<UrlShortenResponse>(IOException("Error in network connection")))
         mPresenter.onAttach(homeActivity)
         mPresenter.shortenUrlClicked(url)
-
-
         //Testing progressbar hiding in case of error
         mPresenter.shortenUrlClicked(url)
         verify(homeActivity, atLeast(2)).hideProgressDialog()
@@ -134,7 +131,7 @@ class HomePresenterTest{
 
     @Test
     @Throws(Exception::class)
-    fun shouldShowSnackbarWhenErrorFetchingFromApi(){
+    fun shouldShowSnackbarWhenErrorFetchingFromApi() {
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
                 .thenReturn(Single.error<UrlShortenResponse>(IOException("Error in network connection")))
@@ -146,7 +143,7 @@ class HomePresenterTest{
 
     @Test
     @Throws(Exception::class)
-    fun shouldOpenDialogAfterApiResponse(){
+    fun shouldOpenDialogAfterApiResponse() {
         val url = "www.google.com"
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(url)).thenReturn(Single.just<UrlShortenResponse>(urlShortenResponse))
@@ -161,9 +158,4 @@ class HomePresenterTest{
     fun tearDown() {
         mPresenter.onDetach()
     }
-
-
-
-
-
 }

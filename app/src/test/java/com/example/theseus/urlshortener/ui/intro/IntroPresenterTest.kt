@@ -8,7 +8,7 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
 class IntroPresenterTest {
-    lateinit var mDataManager:IDataManager
+    lateinit var mDataManager: IDataManager
     lateinit var mPresenter: IIntroPresenter<IIntroView>
     lateinit var mIIntroView: IIntroView
     @Before
@@ -20,7 +20,7 @@ class IntroPresenterTest {
     }
 
     @Test
-    fun openHomeActivityWhenIntroSliderCompletes(){
+    fun openHomeActivityWhenIntroSliderCompletes() {
         mPresenter.introCompleted()
         verify(mDataManager).introSliderShown()
         verify(mIIntroView).openHomeActivity()

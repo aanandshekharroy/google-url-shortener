@@ -15,17 +15,16 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class ApplicationModule (val context: Application){
-
+class ApplicationModule (val context: Application) {
 
     @Provides
     @Singleton
     @ApplicationContext
-    fun applicationContext():Application = context
+    fun applicationContext(): Application = context
 
     @Provides
     @Singleton
-    fun dataManager(dataManager: DataManager):IDataManager = dataManager
+    fun dataManager(dataManager: DataManager): IDataManager = dataManager
 
     @Provides
     @Singleton
@@ -37,6 +36,5 @@ class ApplicationModule (val context: Application){
 
     @Provides
     @Singleton
-    fun sharedPreference():SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-
+    fun sharedPreference(): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 }

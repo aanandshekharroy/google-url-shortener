@@ -9,5 +9,5 @@ import retrofit2.http.POST
 
 interface GoogleUrlShortenerApi {
     @POST("url?key=${BuildConfig.URL_SHORTENER_API}")
-    fun getShortUrl(@Body urlShortenRequest: UrlShortenRequest):Single<UrlShortenResponse>
+    fun getShortUrl(@Body urlShortenRequest: UrlShortenRequest): Single<UrlShortenResponse>
 }
