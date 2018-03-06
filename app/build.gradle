@@ -42,9 +42,9 @@ def getAPIKey() {
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     return properties.getProperty("URL_SHORTENER_API");
 }
-lintOptions {
-    abortOnError false
-}
+//lintOptions {
+//    abortOnError false
+//}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
