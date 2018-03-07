@@ -1,9 +1,13 @@
 package com.example.theseus.urlshortener.ui.home
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.widget.TextView
 import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.UrlShortenerApplication
+import com.example.theseus.urlshortener.copyText
+import com.example.theseus.urlshortener.di.modules.HomeActivityModule
 import com.example.theseus.urlshortener.ui.base.BaseActivity
 import com.example.theseus.urlshortener.ui.intro.IntroActivity
 import com.jakewharton.rxbinding2.view.RxView
@@ -12,27 +16,28 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.indeterminateProgressDialog
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
+import org.jetbrains.anko.share
+import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity(), IHomeView {
-    var progressDialog: ProgressDialog? = null
-
+    @Inject
+    lateinit var progressDialog: ProgressDialog
+    @Inject
+    lateinit var alertDialog: AlertDialog
     override fun openDialog(shortUrl: String) {
+        alertDialog.setTitle(shortUrl)
+        alertDialog.show()
     }
     override fun showProgressDialog() {
-        if (progressDialog == null) {
-            progressDialog = indeterminateProgressDialog(getString(R.string.please_wait))
-        } else {
-            progressDialog!!.show()
-        }
+        progressDialog.show()
     }
 
     override fun hideProgressDialog() {
-        progressDialog?.hide()
+        progressDialog.hide()
     }
     override fun showSnackbar(string: String) {
         snackbar(content, string)
@@ -54,7 +59,9 @@ class HomeActivity : BaseActivity(), IHomeView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        (application as UrlShortenerApplication).homeActivityComponent.inject(this)
+        (application as UrlShortenerApplication).mApplicationComponent
+                .homeActivityComponent(HomeActivityModule(this))
+                .inject(this)
         mPresenter.onAttach(this)
         setupViews()
     }
@@ -74,11 +81,30 @@ class HomeActivity : BaseActivity(), IHomeView {
                 mPresenter.shortenUrlClicked(url_text.text.toString())
             }
         )
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.copy)) {
+            dialog, which ->
+            copyText(this, getAlertDialogTitle())
+            toast(getString(R.string.url_copied))
+        }
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.share)) {
+            dialog, which ->
+            share(getAlertDialogTitle())
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mPresenter.onDetach()
         mCompositeDisposable.dispose()
+    }
+
+    fun getAlertDialogTitle(): String {
+        val titleId = resources.getIdentifier("alertTitle", "id", "android")
+        if (titleId > 0) {
+            val dialogTitle = alertDialog.findViewById(titleId) as TextView
+            return dialogTitle.text.toString()
+        }
+        return ""
     }
 }

@@ -1,5 +1,7 @@
 package com.example.theseus.urlshortener.ui.home
 
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.widget.Button
 import android.widget.EditText
@@ -11,7 +13,10 @@ import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
+import org.mockito.ArgumentMatchers
+import org.mockito.Mock
+import org.mockito.Mockito.verify
+import org.mockito.MockitoAnnotations
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows
@@ -21,11 +26,17 @@ import org.robolectric.annotation.Config
 @Config(constants = BuildConfig::class, application = FakeApplication::class)
 class HomeActivityTest {
     lateinit var homeActivity: HomeActivity
+    @Mock
     lateinit var mPresenter: IHomePresenter<*>
+    @Mock
+    lateinit var mProgressDialog: ProgressDialog
+    @Mock
+    lateinit var mAlertDialog: AlertDialog
+
     @Before
     fun setUp() {
         homeActivity = Robolectric.buildActivity(HomeActivity::class.java).create().get()
-        mPresenter = mock(HomePresenter::class.java)
+        MockitoAnnotations.initMocks(this)
         homeActivity.mPresenter = mPresenter as IHomePresenter<IHomeView>
     }
     @Test
@@ -45,12 +56,24 @@ class HomeActivityTest {
     }
 
     @Test
-    fun shouldShowSnackbar() {
-        // Can't test with Robolectric. No shadow object for Snacks
+    fun shouldSetTextAndShowDialog() {
+        homeActivity.alertDialog = mAlertDialog
+        homeActivity.openDialog("")
+        verify(mAlertDialog).setTitle(ArgumentMatchers.anyString())
+        verify(mAlertDialog).show()
     }
 
     @Test
-    fun shouldOpenDialogWithButton() {
-        homeActivity.openDialog("")
+    fun shouldShowProgressBar() {
+        homeActivity.progressDialog = mProgressDialog
+        homeActivity.showProgressDialog()
+        verify(mProgressDialog).show()
+    }
+
+    @Test
+    fun shouldHideProgressBar() {
+        homeActivity.progressDialog = mProgressDialog
+        homeActivity.hideProgressDialog()
+        verify(mProgressDialog).hide()
     }
 }

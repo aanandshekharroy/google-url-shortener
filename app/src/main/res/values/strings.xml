@@ -9,4 +9,7 @@
     <string name="shorten_url">Shorten Url</string>
     <string name="invalid_url">Invalid Url</string>
     <string name="please_wait">Please wait...</string>
+    <string name="copy">Copy</string>
+    <string name="share">Share</string>
+    <string name="url_copied">Url copied</string>
 </resources>
