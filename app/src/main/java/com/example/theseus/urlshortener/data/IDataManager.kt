@@ -1,7 +1,7 @@
 package com.example.theseus.urlshortener.data
 
-import com.example.theseus.urlshortener.data.db.ShortUrl
 import com.example.theseus.urlshortener.data.api.model.response.UrlShortenResponse
+import com.example.theseus.urlshortener.db.ShortUrl
 import io.reactivex.Single
 
 interface IDataManager {
@@ -9,5 +9,5 @@ interface IDataManager {
     fun isIntroSliderShown(): Boolean
     fun introSliderShown()
     fun fetchShortUrl(url: String): Single<UrlShortenResponse>
-    fun insertShortUrl(shortUrl: ShortUrl)
+    fun insertShortUrl(shortUrl: ShortUrl): Long
 }

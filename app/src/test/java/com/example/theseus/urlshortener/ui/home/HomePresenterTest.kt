@@ -4,7 +4,7 @@ import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.capture
 import com.example.theseus.urlshortener.data.IDataManager
 import com.example.theseus.urlshortener.data.api.model.response.UrlShortenResponse
-import com.example.theseus.urlshortener.data.db.ShortUrl
+import com.example.theseus.urlshortener.db.ShortUrl
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins

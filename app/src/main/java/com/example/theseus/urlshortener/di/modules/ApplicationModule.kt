@@ -7,12 +7,12 @@ import com.example.theseus.urlshortener.data.DataManager
 import com.example.theseus.urlshortener.data.IDataManager
 import com.example.theseus.urlshortener.data.api.ApiManager
 import com.example.theseus.urlshortener.data.api.IApiManager
-import com.example.theseus.urlshortener.data.db.DatabaseManager
-import com.example.theseus.urlshortener.data.db.IDatabaseManager
-import com.example.theseus.urlshortener.data.db.ShortUrlDao
-import com.example.theseus.urlshortener.data.db.ShortUrlDatabase
 import com.example.theseus.urlshortener.data.prefs.ISharedPreferenceManager
 import com.example.theseus.urlshortener.data.prefs.SharedPreferenceManager
+import com.example.theseus.urlshortener.db.DatabaseManager
+import com.example.theseus.urlshortener.db.IDatabaseManager
+import com.example.theseus.urlshortener.db.ShortUrlDao
+import com.example.theseus.urlshortener.db.ShortUrlDatabase
 import com.example.theseus.urlshortener.di.ApplicationContext
 import dagger.Module
 import dagger.Provides
