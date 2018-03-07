@@ -1,4 +1,4 @@
-package com.example.theseus.urlshortener.data.model
+package com.example.theseus.urlshortener.data.api.model
 
 import com.google.gson.annotations.SerializedName
 import javax.annotation.Generated

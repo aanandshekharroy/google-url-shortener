@@ -7,6 +7,10 @@ import com.example.theseus.urlshortener.data.DataManager
 import com.example.theseus.urlshortener.data.IDataManager
 import com.example.theseus.urlshortener.data.api.ApiManager
 import com.example.theseus.urlshortener.data.api.IApiManager
+import com.example.theseus.urlshortener.data.db.DatabaseManager
+import com.example.theseus.urlshortener.data.db.IDatabaseManager
+import com.example.theseus.urlshortener.data.db.ShortUrlDao
+import com.example.theseus.urlshortener.data.db.ShortUrlDatabase
 import com.example.theseus.urlshortener.data.prefs.ISharedPreferenceManager
 import com.example.theseus.urlshortener.data.prefs.SharedPreferenceManager
 import com.example.theseus.urlshortener.di.ApplicationContext
@@ -36,5 +40,16 @@ class ApplicationModule (val context: Application) {
 
     @Provides
     @Singleton
+    fun databaseManager(databaseManager: DatabaseManager): IDatabaseManager = databaseManager
+
+    @Provides
+    @Singleton
     fun sharedPreference(): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+    @Provides
+    @Singleton
+    fun provideShortUrlDataSource(): ShortUrlDao {
+        val database = ShortUrlDatabase.getInstance(context)
+        return database.shortUrlDao()
+    }
 }

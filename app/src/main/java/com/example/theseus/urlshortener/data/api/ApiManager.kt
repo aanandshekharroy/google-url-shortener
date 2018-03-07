@@ -1,6 +1,6 @@
 package com.example.theseus.urlshortener.data.api
 
-import com.example.theseus.urlshortener.data.model.UrlShortenRequest
+import com.example.theseus.urlshortener.data.api.model.UrlShortenRequest
 import javax.inject.Inject
 
 class ApiManager @Inject constructor( val mGoogleUrlShortenerApi: GoogleUrlShortenerApi ) : IApiManager {

@@ -1,8 +1,8 @@
 package com.example.theseus.urlshortener.data.api
 
 import com.example.theseus.urlshortener.BuildConfig
-import com.example.theseus.urlshortener.data.model.UrlShortenRequest
-import com.example.theseus.urlshortener.data.model.response.UrlShortenResponse
+import com.example.theseus.urlshortener.data.api.model.UrlShortenRequest
+import com.example.theseus.urlshortener.data.api.model.response.UrlShortenResponse
 import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.POST

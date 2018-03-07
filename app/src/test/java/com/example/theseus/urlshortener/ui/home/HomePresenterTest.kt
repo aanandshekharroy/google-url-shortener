@@ -1,8 +1,10 @@
 package com.example.theseus.urlshortener.ui.home
 
 import com.example.theseus.urlshortener.R
+import com.example.theseus.urlshortener.capture
 import com.example.theseus.urlshortener.data.IDataManager
-import com.example.theseus.urlshortener.data.model.response.UrlShortenResponse
+import com.example.theseus.urlshortener.data.api.model.response.UrlShortenResponse
+import com.example.theseus.urlshortener.data.db.ShortUrl
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
@@ -18,9 +20,11 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers
-import org.mockito.Mock
+import org.mockito.Captor
 import org.mockito.InjectMocks
+import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.atLeast
 import org.mockito.Mockito.verify
@@ -38,6 +42,8 @@ class HomePresenterTest {
     lateinit var homeActivity: IHomeView
     @Mock
     lateinit var mCompositeDisposable: CompositeDisposable
+    @Captor
+    lateinit var captor: ArgumentCaptor<ShortUrl>
     val urlShortenResponse = UrlShortenResponse("", "", "")
     private val immediate = object : Scheduler() {
         override fun scheduleDirect(run: Runnable,
@@ -150,7 +156,17 @@ class HomePresenterTest {
 
         mPresenter.onAttach(homeActivity)
         mPresenter.shortenUrlClicked(url)
-        verify(homeActivity).openDialog(urlShortenResponse.id!!)
+        verify(homeActivity).openDialog(urlShortenResponse.id)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun shouldSaveInDatabaseAfterApiResponse() {
+        val url = "www.google.com"
+        _when(mDataManager.fetchShortUrl(url)).thenReturn(Single.just<UrlShortenResponse>(urlShortenResponse))
+
+        mPresenter.shortenUrlClicked(url)
+        verify(mDataManager).insertShortUrl(capture(captor))
     }
 
     @After

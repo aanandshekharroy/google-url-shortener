@@ -1,7 +1,8 @@
 package com.example.theseus.urlshortener.data
 
 import com.example.theseus.urlshortener.data.api.IApiManager
-import com.example.theseus.urlshortener.data.prefs.SharedPreferenceManager
+import com.example.theseus.urlshortener.data.db.IDatabaseManager
+import com.example.theseus.urlshortener.data.prefs.ISharedPreferenceManager
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers
@@ -15,7 +16,9 @@ class DataManagerTest {
     @Mock
     lateinit var mApi: IApiManager
     @Mock
-    lateinit var mPreferenceManager: SharedPreferenceManager
+    lateinit var mPreferenceManager: ISharedPreferenceManager
+    @Mock
+    lateinit var mDatabaseManager: IDatabaseManager
     @InjectMocks
     lateinit var mDataManager: DataManager
     @Before

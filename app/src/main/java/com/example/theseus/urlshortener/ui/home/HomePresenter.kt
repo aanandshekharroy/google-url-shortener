@@ -2,6 +2,7 @@ package com.example.theseus.urlshortener.ui.home
 
 import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.data.IDataManager
+import com.example.theseus.urlshortener.data.db.ShortUrl
 import com.example.theseus.urlshortener.ui.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -22,12 +23,16 @@ class HomePresenter<V : IHomeView> @Inject constructor(val mDataManager: IDataMa
             view?.showProgressDialog()
             mCompositeDisposable.add(
                 mDataManager.fetchShortUrl(longUrl)
+                    .map {
+                        ShortUrl(longUrl = it.longUrl, shortUrl = it.id)
+                    }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeBy (
                         onSuccess = {
+                            mDataManager.insertShortUrl(it)
+                            view?.openDialog(it.shortUrl)
                             view?.hideProgressDialog()
-                            view?.openDialog(it.id!!)
                         },
                         onError = {
                             view?.hideProgressDialog()
