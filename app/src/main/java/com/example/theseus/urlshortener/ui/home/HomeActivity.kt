@@ -29,8 +29,9 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity(), IHomeView {
-    override fun populateListWithUrlHistory(shortUrlList: List<ShortUrl>) {
-        mAdapter.mShortUrls = shortUrlList
+    override fun populateListWithUrlHistory(list: List<ShortUrl>) {
+        mAdapter.mShortUrls = list
+        shortUrlList.layoutManager.scrollToPosition(0)
     }
 
     @Inject

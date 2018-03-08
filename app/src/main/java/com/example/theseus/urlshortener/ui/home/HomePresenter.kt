@@ -9,6 +9,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import java.net.MalformedURLException
+import java.net.URL
 import javax.inject.Inject
 
 class HomePresenter<V : IHomeView> @Inject constructor(val mDataManager: IDataManager, val mCompositeDisposable: CompositeDisposable) : BasePresenter<V>(), IHomePresenter<V> {
@@ -31,7 +33,21 @@ class HomePresenter<V : IHomeView> @Inject constructor(val mDataManager: IDataMa
     val webUrlRegex: Regex by lazy {
             """^(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?${'$'}""".toRegex()
     }
-    override fun isValidAddress(url: String) = webUrlRegex.matches(url)
+
+    override fun isValidAddress(url: String): Boolean {
+        try {
+            // First try to match using Regex
+            if (webUrlRegex.matches(url)) {
+                return true
+            }
+            // If failed, try to parse using URL class. This should throw exception if MalformedURL
+            URL(url)
+            return true
+        } catch (e: MalformedURLException) {
+
+            return false
+        }
+    }
     var shortUrl = ""
     override fun shortenUrlClicked(longUrl: String) {
         if (!isValidAddress(longUrl)) {

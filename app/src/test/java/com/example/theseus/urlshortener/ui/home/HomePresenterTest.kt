@@ -98,7 +98,7 @@ class HomePresenterTest {
     @Parameters(method = "getValidUrls")
     @Throws(Exception::class)
     fun testValidSiteAddressUsingRegex(url: String) {
-        assertTrue(mPresenter.isValidAddress(url))
+        assertTrue("$url is not a valid url ", mPresenter.isValidAddress(url))
     }
 
     @Test
@@ -108,7 +108,9 @@ class HomePresenterTest {
         assertFalse("$url is not invalid", mPresenter.isValidAddress(url))
     }
     fun getInvalidUrls() = arrayOf(arrayOf("//stackoverflow.com"), arrayOf("ww..google.com"))
-    fun getValidUrls() = arrayOf(arrayOf("www.google.com"), arrayOf("blog.bufferapp.com/"))
+    fun getValidUrls() = arrayOf(arrayOf("www.google.com"),
+            arrayOf("blog.bufferapp.com/"),
+            arrayOf("https://www.amazon.com/Kotlin-Programming-Cookbook-Explore-applications/dp/1788472144/ref=sr_1_1?ie=UTF8&qid=1517984118&sr=8-1&keywords=kotlin+programming+cookbook"))
 
     @Test
     @Parameters(method = "getInvalidUrls")
