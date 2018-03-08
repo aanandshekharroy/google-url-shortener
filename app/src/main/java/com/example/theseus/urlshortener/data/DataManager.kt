@@ -9,6 +9,8 @@ import javax.inject.Inject
 class DataManager @Inject constructor( val mPreferenceManager: ISharedPreferenceManager,
     val mApiManager: IApiManager,
     val mDatabaseManager: IDatabaseManager) : IDataManager {
+    override fun fetchShortUrlsFromDatabase() = mDatabaseManager.getShortUrlsList()
+
     override fun insertShortUrl(shortUrl: ShortUrl) = mDatabaseManager.insertShortUrl(shortUrl)
 
     override fun fetchShortUrl(url: String) = mApiManager.fetchShortUrl(url)

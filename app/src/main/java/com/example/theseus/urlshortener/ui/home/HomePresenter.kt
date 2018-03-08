@@ -12,6 +12,22 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class HomePresenter<V : IHomeView> @Inject constructor(val mDataManager: IDataManager, val mCompositeDisposable: CompositeDisposable) : BasePresenter<V>(), IHomePresenter<V> {
+    fun loadUrlsHistoryFromDatabase() {
+        mCompositeDisposable.add(mDataManager
+                .fetchShortUrlsFromDatabase()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy (
+                        onNext = {
+                            view?.populateListWithUrlHistory(it)
+                        }
+                ))
+    }
+
+    override fun shortUrlItemClicked(shortUrl: ShortUrl) {
+        view?.openDialog(shortUrl.shortUrl)
+    }
+
     val webUrlRegex: Regex by lazy {
             """^(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?${'$'}""".toRegex()
     }
@@ -54,6 +70,8 @@ class HomePresenter<V : IHomeView> @Inject constructor(val mDataManager: IDataMa
         super.onAttach(v)
         if (!mDataManager.isIntroSliderShown()) {
             view?.openIntroSlider()
+        } else {
+            loadUrlsHistoryFromDatabase()
         }
     }
 

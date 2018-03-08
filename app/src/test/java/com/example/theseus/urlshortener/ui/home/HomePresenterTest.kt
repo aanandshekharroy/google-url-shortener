@@ -5,6 +5,7 @@ import com.example.theseus.urlshortener.capture
 import com.example.theseus.urlshortener.data.IDataManager
 import com.example.theseus.urlshortener.data.api.model.response.UrlShortenResponse
 import com.example.theseus.urlshortener.db.ShortUrl
+import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
@@ -27,6 +28,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.atLeast
+import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import java.io.IOException
@@ -63,16 +65,16 @@ class HomePresenterTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         RxJavaPlugins.setInitIoSchedulerHandler { immediate }
-        RxJavaPlugins.setInitComputationSchedulerHandler { immediate }
-        RxJavaPlugins.setInitNewThreadSchedulerHandler { immediate }
-        RxJavaPlugins.setInitSingleSchedulerHandler { immediate }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediate }
     }
 
     @Test
     fun shouldOpenIntroSliderIfIntroNeverShown() {
+        //given
         _when(mDataManager.isIntroSliderShown()).thenReturn(false)
+        //when
         mPresenter.onAttach(homeActivity)
+        //then
         verify(homeActivity).openIntroSlider()
     }
 
@@ -103,70 +105,123 @@ class HomePresenterTest {
     @Parameters(method = "getInvalidUrls")
     @Throws(Exception::class)
     fun shouldShowSnackbarIfAddressInvalid(url: String) {
+        //given
         mPresenter.onAttach(homeActivity)
+        //when
         mPresenter.shortenUrlClicked(url)
+        //then
         verify(homeActivity).showSnackbar(R.string.invalid_url)
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldShowProgressDialogWhileFetchingShortUrl() {
+        //given
         val url = "www.google.com"
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
                 .thenReturn(Single.just(urlShortenResponse))
         mPresenter.onAttach(homeActivity)
+        //when
         mPresenter.shortenUrlClicked(url)
+        //then
         verify(homeActivity).showProgressDialog()
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldHideProgressDialogAfterFetchingShortUrl() {
+        //given
         val url = "www.google.com"
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
                 .thenReturn(Single.just(urlShortenResponse))
                 .thenReturn(Single.error<UrlShortenResponse>(IOException("Error in network connection")))
         mPresenter.onAttach(homeActivity)
+        //when
         mPresenter.shortenUrlClicked(url)
-        //Testing progressbar hiding in case of error
+            //Testing progressbar hiding in case of error
         mPresenter.shortenUrlClicked(url)
+        //then
         verify(homeActivity, atLeast(2)).hideProgressDialog()
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldShowSnackbarWhenErrorFetchingFromApi() {
+        //given
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
                 .thenReturn(Single.error<UrlShortenResponse>(IOException("Error in network connection")))
         val url = "www.google.com"
         mPresenter.onAttach(homeActivity)
+        //when
         mPresenter.shortenUrlClicked(url)
+        //then
         verify(homeActivity).showSnackbar(ArgumentMatchers.anyString())
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldOpenDialogAfterApiResponse() {
+        //given
         val url = "www.google.com"
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(url)).thenReturn(Single.just<UrlShortenResponse>(urlShortenResponse))
-
         mPresenter.onAttach(homeActivity)
+        //when
         mPresenter.shortenUrlClicked(url)
+        //then
         verify(homeActivity).openDialog(urlShortenResponse.id)
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldSaveInDatabaseAfterApiResponse() {
+        //Given
         val url = "www.google.com"
         _when(mDataManager.fetchShortUrl(url)).thenReturn(Single.just<UrlShortenResponse>(urlShortenResponse))
-
+        //when
         mPresenter.shortenUrlClicked(url)
+        //then
         verify(mDataManager).insertShortUrl(capture(captor))
+    }
+
+    @Test
+    fun shouldOpenDialogWhenItemClickEventReceived() {
+        //Given
+        val shortUrl = mock(ShortUrl::class.java)
+        _when(shortUrl.shortUrl).thenReturn("abc")
+        mPresenter.onAttach(homeActivity)
+        //when
+        mPresenter.shortUrlItemClicked(shortUrl)
+        //then
+        verify(homeActivity).openDialog("abc")
+    }
+
+    @Test
+    fun shouldLoadDataFromDatabase() {
+        //given
+        val shortUrlList = mock(List::class.java)
+        _when(mDataManager.fetchShortUrlsFromDatabase())
+                .thenReturn(Flowable.just<List<ShortUrl>>(shortUrlList as List<ShortUrl>))
+        //when
+        mPresenter.loadUrlsHistoryFromDatabase()
+        //then
+        verify(mDataManager).fetchShortUrlsFromDatabase()
+    }
+
+    @Test
+    fun shouldPopulateViewsWhenDataReceived() {
+        //given
+        mPresenter.onAttach(homeActivity)
+        val shortUrlList = mock(List::class.java) as List<ShortUrl>
+        _when(mDataManager.fetchShortUrlsFromDatabase())
+                .thenReturn(Flowable.just<List<ShortUrl>>(shortUrlList))
+        //when
+        mPresenter.loadUrlsHistoryFromDatabase()
+        //then
+        verify(homeActivity).populateListWithUrlHistory(shortUrlList)
     }
 
     @After

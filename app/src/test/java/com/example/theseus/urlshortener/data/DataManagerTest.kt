@@ -27,7 +27,9 @@ class DataManagerTest {
     }
     @Test
     fun shouldFetchShortUrlFromApi() {
+        //when
         mDataManager.fetchShortUrl("")
+        //then
         verify(mApi).fetchShortUrl(ArgumentMatchers.anyString())
     }
 }

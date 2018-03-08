@@ -8,13 +8,18 @@ import android.widget.EditText
 import com.example.theseus.urlshortener.BuildConfig
 import com.example.theseus.urlshortener.FakeApplication
 import com.example.theseus.urlshortener.R
+import com.example.theseus.urlshortener.data.IDataManager
+import com.example.theseus.urlshortener.db.ShortUrl
 import com.example.theseus.urlshortener.ui.intro.IntroActivity
+import io.reactivex.disposables.CompositeDisposable
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
+import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import org.robolectric.Robolectric
@@ -27,6 +32,10 @@ import org.robolectric.annotation.Config
 class HomeActivityTest {
     lateinit var homeActivity: HomeActivity
     @Mock
+    lateinit var mDataManager: IDataManager
+    @Mock
+    lateinit var mCompositeDisposable: CompositeDisposable
+    @InjectMocks
     lateinit var mPresenter: IHomePresenter<*>
     @Mock
     lateinit var mProgressDialog: ProgressDialog
@@ -39,6 +48,17 @@ class HomeActivityTest {
         MockitoAnnotations.initMocks(this)
         homeActivity.mPresenter = mPresenter as IHomePresenter<IHomeView>
     }
+
+    @Test
+    fun shouldCallPresenterWhenClickEventReceived() {
+        //given
+        val shortUrl = mock(ShortUrl::class.java)
+        //when
+        homeActivity.onItemClicked(shortUrl)
+        //given
+        verify(mPresenter).shortUrlItemClicked(shortUrl)
+    }
+
     @Test
     fun shouldLaunchIntroActivity() {
         homeActivity.openIntroSlider()
@@ -57,23 +77,32 @@ class HomeActivityTest {
 
     @Test
     fun shouldSetTextAndShowDialog() {
+        //given
         homeActivity.alertDialog = mAlertDialog
+        //when
         homeActivity.openDialog("")
+        //then
         verify(mAlertDialog).setTitle(ArgumentMatchers.anyString())
         verify(mAlertDialog).show()
     }
 
     @Test
     fun shouldShowProgressBar() {
+        //given
         homeActivity.progressDialog = mProgressDialog
+        //when
         homeActivity.showProgressDialog()
+        //then
         verify(mProgressDialog).show()
     }
 
     @Test
     fun shouldHideProgressBar() {
+        //given
         homeActivity.progressDialog = mProgressDialog
+        //when
         homeActivity.hideProgressDialog()
+        //then
         verify(mProgressDialog).hide()
     }
 }

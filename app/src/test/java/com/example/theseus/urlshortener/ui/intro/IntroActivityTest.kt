@@ -30,16 +30,20 @@ class IntroActivityTest {
 
     @Test
     fun testPresenterIsCalledWhenIntroCompletes() {
+        //when
         introActivity.onDonePressed(mock(Fragment::class.java))
+        //then
         verify(mPresenter).introCompleted()
     }
 
     @Test
     fun shouldLaunchHomeActivity() {
+        //when
         introActivity.openHomeActivity()
         val expectedIntent = Intent(introActivity, HomeActivity::class.java)
         val shadowActivity = Shadows.shadowOf(introActivity)
         val actualIntent = shadowActivity.getNextStartedActivity()
+        //then
         Assert.assertTrue(actualIntent.filterEquals(expectedIntent))
     }
 }

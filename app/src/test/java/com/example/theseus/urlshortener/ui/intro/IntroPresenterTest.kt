@@ -21,7 +21,9 @@ class IntroPresenterTest {
 
     @Test
     fun openHomeActivityWhenIntroSliderCompletes() {
+        //when
         mPresenter.introCompleted()
+        //then
         verify(mDataManager).introSliderShown()
         verify(mIIntroView).openHomeActivity()
     }

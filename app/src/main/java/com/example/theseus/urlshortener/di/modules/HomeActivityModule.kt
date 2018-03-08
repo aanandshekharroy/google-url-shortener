@@ -8,6 +8,7 @@ import com.example.theseus.urlshortener.di.scope.HomeActivityScope
 import com.example.theseus.urlshortener.ui.home.HomePresenter
 import com.example.theseus.urlshortener.ui.home.IHomePresenter
 import com.example.theseus.urlshortener.ui.home.IHomeView
+import com.example.theseus.urlshortener.ui.home.ShortUrlAdapter
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -39,4 +40,8 @@ class HomeActivityModule (val context: Context) {
     @HomeActivityScope
     fun alertDialog(): AlertDialog = context.alert("", "") {
     }.build()
+
+    @Provides
+    @HomeActivityScope
+    fun adapter() = ShortUrlAdapter()
 }

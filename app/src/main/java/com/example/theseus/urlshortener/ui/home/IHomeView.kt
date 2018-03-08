@@ -1,6 +1,7 @@
 package com.example.theseus.urlshortener.ui.home
 
 import android.support.annotation.StringRes
+import com.example.theseus.urlshortener.db.ShortUrl
 import com.example.theseus.urlshortener.ui.base.IBaseView
 
 interface IHomeView : IBaseView {
@@ -10,4 +11,5 @@ interface IHomeView : IBaseView {
     fun openDialog(shortUrl: String)
     fun showProgressDialog()
     fun hideProgressDialog()
+    fun populateListWithUrlHistory(shortUrlList: List<ShortUrl>)
 }

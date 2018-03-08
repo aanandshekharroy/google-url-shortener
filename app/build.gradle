@@ -112,6 +112,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.0'
 
     implementation "android.arch.persistence.room:rxjava2:$roomVersion"
+
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }
 task ktlint(type: JavaExec, group: "verification") {
     description = "Check Kotlin code style."
