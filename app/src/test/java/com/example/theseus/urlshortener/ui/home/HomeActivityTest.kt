@@ -17,7 +17,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
-import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
@@ -35,7 +34,7 @@ class HomeActivityTest {
     lateinit var mDataManager: IDataManager
     @Mock
     lateinit var mCompositeDisposable: CompositeDisposable
-    @InjectMocks
+    @Mock
     lateinit var mPresenter: IHomePresenter<*>
     @Mock
     lateinit var mProgressDialog: ProgressDialog

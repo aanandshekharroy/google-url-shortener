@@ -44,6 +44,8 @@ class HomePresenterTest {
     lateinit var homeActivity: IHomeView
     @Mock
     lateinit var mCompositeDisposable: CompositeDisposable
+    @InjectMocks
+    lateinit var mPresenter: HomePresenter<IHomeView>
     @Captor
     lateinit var captor: ArgumentCaptor<ShortUrl>
     val urlShortenResponse = UrlShortenResponse("", "", "")
@@ -58,12 +60,14 @@ class HomePresenterTest {
                     Executor { it.run() })
         }
     }
-    @InjectMocks
-    lateinit var mPresenter: HomePresenter<IHomeView>
+
     @Before
     @Throws(Exception::class)
     fun setUp() {
         MockitoAnnotations.initMocks(this)
+        val shortUrlList = mock(List::class.java) as List<ShortUrl>
+        _when(mDataManager.fetchShortUrlsFromDatabase())
+                .thenReturn(Flowable.just<List<ShortUrl>>(shortUrlList))
         RxJavaPlugins.setInitIoSchedulerHandler { immediate }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediate }
     }
@@ -80,8 +84,13 @@ class HomePresenterTest {
 
     @Test
     fun shouldNotOpenIntroWhenIntroShown() {
+        //given
+        val shortUrlList = mock(List::class.java) as List<ShortUrl>
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
+
+        //when
         mPresenter.onAttach(homeActivity)
+        //then
         verify(homeActivity, Mockito.never()).openIntroSlider()
     }
 
