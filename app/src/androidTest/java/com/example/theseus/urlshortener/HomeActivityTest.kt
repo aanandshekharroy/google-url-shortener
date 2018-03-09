@@ -1,10 +1,14 @@
 package com.example.theseus.urlshortener
 
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.*
+import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.closeSoftKeyboard
+import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.example.theseus.urlshortener.data.IDataManager
@@ -32,7 +36,7 @@ class HomeActivityTest {
     @InjectMocks
     lateinit var mPresenter: IHomePresenter<*>
     @Before
-    fun setUp(){
+    fun setUp() {
         MockitoAnnotations.initMocks(this)
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         mActivityRule.activity.mPresenter = mPresenter as IHomePresenter<IHomeView>
@@ -65,5 +69,4 @@ class HomeActivityTest {
                         ViewMatchers.Visibility.VISIBLE
                 )))
     }
-
 }

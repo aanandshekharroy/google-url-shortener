@@ -1,9 +1,9 @@
 package com.example.theseus.urlshortener.data
 
 import com.example.theseus.urlshortener.data.api.IApiManager
-import com.example.theseus.urlshortener.data.prefs.ISharedPreferenceManager
 import com.example.theseus.urlshortener.data.db.IDatabaseManager
 import com.example.theseus.urlshortener.data.db.ShortUrl
+import com.example.theseus.urlshortener.data.prefs.ISharedPreferenceManager
 import javax.inject.Inject
 
 class DataManager @Inject constructor( val mPreferenceManager: ISharedPreferenceManager,

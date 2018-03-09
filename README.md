@@ -5,6 +5,7 @@
 * **100% Kotlin**
 * **MVP architecture with RxJava 2** 
 * **Dagger 2 for Dependency Injection**
+* **Used Google's** *Room* **for local database**
 * **Mockito and Robolectric for unit tests**
 * **Espresso for Integration Tests**
 * **Continous Integration with Travis CI**
@@ -19,4 +20,3 @@ Include the unique key for the build by adding the following line to [USER_HOME]
 `URL_SHORTENER_API="<UNIQUE_API_KEY">`
 
 
-========
