@@ -1,4 +1,4 @@
-package com.example.theseus.urlshortener.db
+package com.example.theseus.urlshortener.data.db
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Delete

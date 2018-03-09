@@ -1,7 +1,14 @@
 # Google-url-shortener
 ![Build Status](https://travis-ci.com/aanandshekharroy/google-url-shortener.svg?token=QTYBBUUatk4HyqbxsyoT&branch=master)
 
-========
+### Important Features
+* **100% Kotlin**
+* **MVP architecture with RxJava 2** 
+* **Dagger 2 for Dependency Injection**
+* **Mockito and Robolectric for unit tests**
+* **Espresso for Integration Tests**
+* **Continous Integration with Travis CI**
+* **Ktlint as static code analyzer**
 
 ### Google Url Shortner  API Key is required.
 

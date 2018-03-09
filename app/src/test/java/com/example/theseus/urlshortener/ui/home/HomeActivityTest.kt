@@ -9,7 +9,7 @@ import com.example.theseus.urlshortener.BuildConfig
 import com.example.theseus.urlshortener.FakeApplication
 import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.data.IDataManager
-import com.example.theseus.urlshortener.db.ShortUrl
+import com.example.theseus.urlshortener.data.db.ShortUrl
 import com.example.theseus.urlshortener.ui.intro.IntroActivity
 import io.reactivex.disposables.CompositeDisposable
 import junit.framework.Assert.assertTrue

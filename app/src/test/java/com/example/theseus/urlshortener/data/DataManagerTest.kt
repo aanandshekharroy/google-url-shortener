@@ -2,7 +2,7 @@ package com.example.theseus.urlshortener.data
 
 import com.example.theseus.urlshortener.data.api.IApiManager
 import com.example.theseus.urlshortener.data.prefs.ISharedPreferenceManager
-import com.example.theseus.urlshortener.db.IDatabaseManager
+import com.example.theseus.urlshortener.data.db.IDatabaseManager
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers

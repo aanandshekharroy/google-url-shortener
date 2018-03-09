@@ -1,7 +1,7 @@
 package com.example.theseus.urlshortener.data
 
 import com.example.theseus.urlshortener.data.api.model.response.UrlShortenResponse
-import com.example.theseus.urlshortener.db.ShortUrl
+import com.example.theseus.urlshortener.data.db.ShortUrl
 import io.reactivex.Flowable
 import io.reactivex.Single
 

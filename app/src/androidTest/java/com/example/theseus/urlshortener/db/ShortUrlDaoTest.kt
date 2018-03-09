@@ -4,6 +4,8 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
+import com.example.theseus.urlshortener.data.db.ShortUrl
+import com.example.theseus.urlshortener.data.db.ShortUrlDatabase
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

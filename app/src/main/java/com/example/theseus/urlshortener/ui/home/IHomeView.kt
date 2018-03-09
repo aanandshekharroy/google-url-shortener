@@ -1,7 +1,7 @@
 package com.example.theseus.urlshortener.ui.home
 
 import android.support.annotation.StringRes
-import com.example.theseus.urlshortener.db.ShortUrl
+import com.example.theseus.urlshortener.data.db.ShortUrl
 import com.example.theseus.urlshortener.ui.base.IBaseView
 
 interface IHomeView : IBaseView {

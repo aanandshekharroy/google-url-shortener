@@ -1,4 +1,4 @@
-package com.example.theseus.urlshortener.db
+package com.example.theseus.urlshortener.data.db
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
@@ -16,7 +16,8 @@ abstract class ShortUrlDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): ShortUrlDatabase =
                 INSTANCE ?: synchronized(this) {
-                    INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+                    INSTANCE
+                            ?: buildDatabase(context).also { INSTANCE = it }
                 }
 
         private fun buildDatabase(context: Context) =

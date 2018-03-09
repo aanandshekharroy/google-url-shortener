@@ -2,13 +2,14 @@ package com.example.theseus.urlshortener.ui.home
 
 import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.data.IDataManager
-import com.example.theseus.urlshortener.db.ShortUrl
+import com.example.theseus.urlshortener.data.db.ShortUrl
 import com.example.theseus.urlshortener.ui.base.BasePresenter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import java.io.IOException
 import java.net.MalformedURLException
 import java.net.URL
 import javax.inject.Inject
@@ -75,7 +76,11 @@ class HomePresenter<V : IHomeView> @Inject constructor(val mDataManager: IDataMa
                         },
                         onError = {
                             view?.hideProgressDialog()
-                            view?.showSnackbar(it.localizedMessage)
+                            if (it is IOException) {
+                                view?.showSnackbar(R.string.error_in_network_connection)
+                            } else {
+                                view?.showSnackbar(it.localizedMessage)
+                            }
                         }
                     )
             )

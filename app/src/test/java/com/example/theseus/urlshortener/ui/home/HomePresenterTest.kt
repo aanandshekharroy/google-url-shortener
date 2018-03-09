@@ -4,7 +4,7 @@ import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.capture
 import com.example.theseus.urlshortener.data.IDataManager
 import com.example.theseus.urlshortener.data.api.model.response.UrlShortenResponse
-import com.example.theseus.urlshortener.db.ShortUrl
+import com.example.theseus.urlshortener.data.db.ShortUrl
 import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.Single
@@ -110,7 +110,8 @@ class HomePresenterTest {
     fun getInvalidUrls() = arrayOf(arrayOf("//stackoverflow.com"), arrayOf("ww..google.com"))
     fun getValidUrls() = arrayOf(arrayOf("www.google.com"),
             arrayOf("blog.bufferapp.com/"),
-            arrayOf("https://www.amazon.com/Kotlin-Programming-Cookbook-Explore-applications/dp/1788472144/ref=sr_1_1?ie=UTF8&qid=1517984118&sr=8-1&keywords=kotlin+programming+cookbook"))
+            arrayOf("https://www.amazon.com/Kotlin-Programming-Cookbook-Explore-applications/dp/1788472144/ref=sr_1_1?ie=UTF8&qid=1517984118&sr=8-1&keywords=kotlin+programming+cookbook"),
+            arrayOf("invalid_url"))
 
     @Test
     @Parameters(method = "getInvalidUrls")
@@ -159,7 +160,7 @@ class HomePresenterTest {
 
     @Test
     @Throws(Exception::class)
-    fun shouldShowSnackbarWhenErrorFetchingFromApi() {
+    fun shouldShowSnackbarWhenIOErrorFetchingFromApi() {
         //given
         _when(mDataManager.isIntroSliderShown()).thenReturn(true)
         _when(mDataManager.fetchShortUrl(ArgumentMatchers.anyString()))
@@ -169,7 +170,7 @@ class HomePresenterTest {
         //when
         mPresenter.shortenUrlClicked(url)
         //then
-        verify(homeActivity).showSnackbar(ArgumentMatchers.anyString())
+        verify(homeActivity).showSnackbar(R.string.error_in_network_connection)
     }
 
     @Test

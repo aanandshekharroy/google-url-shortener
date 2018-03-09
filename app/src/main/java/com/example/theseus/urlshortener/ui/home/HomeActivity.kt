@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.example.theseus.urlshortener.R
 import com.example.theseus.urlshortener.UrlShortenerApplication
 import com.example.theseus.urlshortener.copyText
-import com.example.theseus.urlshortener.db.ShortUrl
+import com.example.theseus.urlshortener.data.db.ShortUrl
 import com.example.theseus.urlshortener.di.modules.HomeActivityModule
 import com.example.theseus.urlshortener.ui.base.BaseActivity
 import com.example.theseus.urlshortener.ui.intro.IntroActivity

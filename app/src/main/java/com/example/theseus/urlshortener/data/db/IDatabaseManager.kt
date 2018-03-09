@@ -1,4 +1,4 @@
-package com.example.theseus.urlshortener.db
+package com.example.theseus.urlshortener.data.db
 
 import io.reactivex.Flowable
 

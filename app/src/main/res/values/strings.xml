@@ -12,4 +12,6 @@
     <string name="copy">Copy</string>
     <string name="share">Share</string>
     <string name="url_copied">Url copied</string>
+    <string name="enter_url">Enter Url</string>
+    <string name="error_in_network_connection">Error in Network connection</string>
 </resources>
